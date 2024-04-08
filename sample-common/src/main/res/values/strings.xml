@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_explanation_title">We need your permission</string>
+    <string name="notification_explanation_text">We need your permission in order to display notifications. Please click allow in the next prompt that appears.</string>
+    <string name="notification_explanation_ok">OK</string>
+    <string name="notification_explanation_cancel">No thanks</string>
+    <string name="notification_already_granted">Notification permission already granted</string>
+    <string name="notification_permission_title">Permissions</string>
+    <string name="notification_permission_success">Notifications Permission Granted</string>
+    <string name="notification_permission_fail">Notifications Permission Denied</string>
+    <string name="api_too_low_title">Too low API level</string>
+    <string name="api_too_low_text">Requesting notification permission not needed.</string>
+</resources>
