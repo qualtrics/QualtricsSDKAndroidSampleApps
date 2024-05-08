@@ -10,14 +10,20 @@ import android.os.Bundle
 class ActivityResumeCallbacks(
     val callback: (activity: Activity) -> Unit,
 ) : Application.ActivityLifecycleCallbacks {
+    private var isActivityResumed = false
+
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         // left empty by design
     }
 
-    override fun onActivityStarted(activity: Activity) = callback(activity)
+    override fun onActivityStarted(activity: Activity) {
+        if (!isActivityResumed) {
+            callback(activity)
+        }
+    }
 
     override fun onActivityResumed(activity: Activity) {
-        // left empty by design
+        isActivityResumed = true
     }
 
     override fun onActivityPaused(activity: Activity) {

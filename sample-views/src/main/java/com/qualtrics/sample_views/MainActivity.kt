@@ -31,7 +31,10 @@ class MainActivity : AppCompatActivity() {
                 brandID = Constants.QUALTRICS_BRAND_ID,
             )
 
-        setupViewVisitsOnActivityChange()
+        if (savedInstanceState == null) {
+            // This is the first time the activity is created
+            setupViewVisitsOnActivityChange()
+        }
 
         RequestNotificationPermissionExample.setupPermissionLauncher(this@MainActivity)
         binding.btnRequestPermission.setOnClickListener {

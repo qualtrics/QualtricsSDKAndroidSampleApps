@@ -18,22 +18,29 @@ class BottomNavExampleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBottomNavExampleBinding
     private lateinit var navController: NavController
+    private var currentNavDestinationId: Int = 0
 
     private val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        Log.d(Constants.LOG_TAG, "View changed to $destination")
-        registerViewVisitWithEmbeddedData(
-            activity = this@BottomNavExampleActivity,
-            viewName = destination.label.toString(),
-            embeddedData = hashMapOf("productName" to "Great Brand")
-        )
-        evaluateInterceptAndDisplay(
-            this@BottomNavExampleActivity,
-            Constants.QUALTRICS_INTERCEPT_ID,
-        )
+        if (destination.id != currentNavDestinationId) {
+            Log.d(Constants.LOG_TAG, "View changed to $destination")
+            destination.id.let { currentNavDestinationId = it }
+
+            registerViewVisitWithEmbeddedData(
+                activity = this@BottomNavExampleActivity,
+                viewName = destination.label.toString(),
+                embeddedData = hashMapOf("productName" to "Great Brand")
+            )
+            evaluateInterceptAndDisplay(
+                this@BottomNavExampleActivity,
+                Constants.QUALTRICS_INTERCEPT_ID,
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        currentNavDestinationId = savedInstanceState?.getInt("currentNavDestination") ?: 0
 
         binding = ActivityBottomNavExampleBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -50,6 +57,11 @@ class BottomNavExampleActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener(listener)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentNavDestinationId.let { outState.putInt("currentNavDestination", it) }
     }
 
     override fun onDestroy() {
